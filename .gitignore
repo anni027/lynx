@@ -11,6 +11,11 @@ test*.log
 # Model weights (4GB+ — users pull via `lynx pull`)
 models/*.gguf
 models/.cache/
+models/download.log
+models/download.err
+
+# Plans
+.kilo/
 
 # Rust
 **/*.rs.bk
