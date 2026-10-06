@@ -1,0 +1,26 @@
+# Build output
+/target/
+build.log
+build.err
+build2.log
+build2.err
+serve.log
+serve.err
+test*.log
+
+# Model weights (4GB+ — users pull via `lynx pull`)
+models/*.gguf
+models/.cache/
+
+# Rust
+**/*.rs.bk
+.cargo/
+
+# Editor / OS
+.vscode/
+.idea/
+*.swp
+*~
+Thumbs.db
+.DS_Store
+desktop.ini

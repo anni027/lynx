@@ -1,0 +1,25 @@
+# Lynx config — local-first CLI agent.
+# Model: Qwen2.5-Coder-7B-Instruct ABLITERATED, GGUF quants via `lynx pull`.
+
+[server]
+host = "127.0.0.1"
+port = 8080
+# extra_args = ["--flash-attn", "on"]
+
+[model]
+# Resolved relative to cwd, then exe dir.
+path = "models/Qwen2.5-Coder-7B-Instruct-abliterated-Q4_K_M.gguf"
+repo = "bartowski/Qwen2.5-Coder-7B-Instruct-abliterated-GGUF"
+file = "Qwen2.5-Coder-7B-Instruct-abliterated-Q4_K_M.gguf"
+ctx_size = 8192
+n_predict = -1
+temperature = 0.2
+top_p = 0.9
+# 99 = offload all layers; llama.cpp clamps to what fits your 6GB VRAM.
+n_gpu_layers = 99
+
+[agent]
+max_steps = 12
+confirm_bash = true
+confirm_writes = false
+# extra_roots = ["D:/projects"]
