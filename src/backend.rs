@@ -80,6 +80,9 @@ impl LlamaServer {
         port: u16,
         ctx: u32,
         ngl: u32,
+        cache_type_k: &str,
+        cache_type_v: &str,
+        flash_attn: bool,
         extra: &[String],
     ) -> Result<()> {
         if self.probe().await.unwrap_or(false) {
@@ -107,7 +110,14 @@ impl LlamaServer {
             .arg("-ngl")
             .arg(ngl.to_string())
             .arg("--jinja")
-            .args(extra)
+            .arg("-ctk")
+            .arg(cache_type_k)
+            .arg("-ctv")
+            .arg(cache_type_v);
+        if flash_attn {
+            cmd.arg("-fa").arg("on");
+        }
+        cmd.args(extra)
             .stdout(Stdio::null())
             .stderr(Stdio::null())
             .kill_on_drop(true);

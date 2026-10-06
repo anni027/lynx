@@ -100,12 +100,27 @@ async fn ensure_backend(cfg: &LynxConfig, base: &str) -> Result<LlamaServer> {
     }
     println!("{} {}", style("▲ starting llama-server:").cyan(), model.display());
     println!("  {}", style("loading into VRAM… (first boot takes ~30-60s)").dim());
+    if cfg.model.ctx_size > 32768 && cfg.model.cache_type_k == "f16" {
+        println!(
+            "{}",
+            style("  ⚠ large ctx without KV quantization — consider cache_type_k = \"q4_0\"").yellow()
+        );
+    }
+    if cfg.model.cache_type_v != "f16" && !cfg.model.flash_attn {
+        anyhow::bail!(
+            "cache_type_v = \"{}\" requires flash_attn = true in lynx.toml",
+            cfg.model.cache_type_v
+        );
+    }
     srv.spawn(
         &model,
         &cfg.server.host,
         cfg.server.port,
         cfg.model.ctx_size,
         cfg.model.n_gpu_layers,
+        &cfg.model.cache_type_k,
+        &cfg.model.cache_type_v,
+        cfg.model.flash_attn,
         &cfg.server.extra_args,
     )
     .await

@@ -11,12 +11,20 @@ port = 8080
 path = "models/Qwen2.5-Coder-7B-Instruct-abliterated-Q4_K_M.gguf"
 repo = "bartowski/Qwen2.5-Coder-7B-Instruct-abliterated-GGUF"
 file = "Qwen2.5-Coder-7B-Instruct-abliterated-Q4_K_M.gguf"
-ctx_size = 8192
+# 128K context via KV cache quantization + Flash Attention.
+# Qwen2.5-Coder-7B: 28 layers, 4 KV heads (GQA) — small KV cache.
+# q4_0 KV at 128K ≈ 0.9 GB → total VRAM ≈ 5.3 GB (fits 6GB RTX 4050).
+ctx_size = 131072
 n_predict = -1
 temperature = 0.2
 top_p = 0.9
 # 99 = offload all layers; llama.cpp clamps to what fits your 6GB VRAM.
 n_gpu_layers = 99
+# KV cache quantization: "f16" (default), "q8_0" (50% smaller), "q4_0" (75% smaller).
+# Quantized V cache REQUIRES flash_attn = true.
+cache_type_k = "q4_0"
+cache_type_v = "q4_0"
+flash_attn = true
 
 [agent]
 max_steps = 12

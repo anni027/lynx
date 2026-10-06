@@ -29,6 +29,12 @@ fn default_top_p() -> f32 {
 fn default_ngl() -> u32 {
     99
 }
+fn default_kv_type_k() -> String {
+    "f16".into()
+}
+fn default_kv_type_v() -> String {
+    "f16".into()
+}
 fn default_max_steps() -> usize {
     12
 }
@@ -68,6 +74,15 @@ pub struct ModelCfg {
     /// Layers offloaded to GPU. 99 = all (llama.cpp clamps automatically).
     #[serde(default = "default_ngl")]
     pub n_gpu_layers: u32,
+    /// KV cache data type for K. "f16", "q8_0", "q4_0".
+    #[serde(default = "default_kv_type_k")]
+    pub cache_type_k: String,
+    /// KV cache data type for V. Quantized V requires flash_attn.
+    #[serde(default = "default_kv_type_v")]
+    pub cache_type_v: String,
+    /// Enable Flash Attention (required for quantized V cache).
+    #[serde(default)]
+    pub flash_attn: bool,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -116,6 +131,9 @@ impl Default for ModelCfg {
             temperature: default_temp(),
             top_p: default_top_p(),
             n_gpu_layers: default_ngl(),
+            cache_type_k: default_kv_type_k(),
+            cache_type_v: default_kv_type_v(),
+            flash_attn: false,
         }
     }
 }
