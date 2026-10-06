@@ -1,8 +1,4 @@
 //! Tool definitions, `<tool_call>` parsing, sandbox dispatch, verifier.
-//!
-//! Slimmed from the Odysseus `tool_schemas.py` / `tool_execution.py` pattern:
-//! deny-first path confinement, dedicated file tools (never bash redirects),
-//! truncated results fed back to the model.
 
 use anyhow::Result;
 use regex::Regex;
@@ -137,7 +133,7 @@ One call per turn is fine; you may emit several in sequence across turns.
 - done {"message": "..."} — finish the task with a summary for the user."#
 }
 
-/// Sensitive basenames denied everywhere (ported from Odysseus policy).
+/// Sensitive basenames denied everywhere.
 const SENSITIVE: &[&str] = &[
     ".ssh", ".gnupg", ".gitconfig", ".bashrc", ".bash_profile", ".zshrc", ".profile", ".env",
     ".netrc",

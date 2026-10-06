@@ -302,4 +302,3 @@ Model: `bartowski/Qwen2.5-Coder-7B-Instruct-abliterated-GGUF` — [HuggingFace](
 - [llama.cpp](https://github.com/ggerganov/llama.cpp) — GGUF inference engine
 - [Qwen2.5-Coder](https://huggingface.co/Qwen/Qwen2.5-Coder-7B-Instruct) — base model
 - [bartowski](https://huggingface.co/bartowski) — GGUF quantization
-- [Odysseus](https://github.com/odysseus-ai/odysseus) — tool execution & sandbox design
